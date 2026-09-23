@@ -40,10 +40,11 @@ jobs:
       - name: Build site
         run: |
           repo="${GITHUB_REPOSITORY#*/}"
-          if [ "$repo" = "${GITHUB_REPOSITORY_OWNER}.github.io" ]; then
-            site_url="https://${GITHUB_REPOSITORY_OWNER}.github.io/"
+          owner_lc="$(printf '%s' "$GITHUB_REPOSITORY_OWNER" | tr '[:upper:]' '[:lower:]')"
+          if [ "$repo" = "${owner_lc}.github.io" ]; then
+            site_url="https://${owner_lc}.github.io/"
           else
-            site_url="https://${GITHUB_REPOSITORY_OWNER}.github.io/${repo}/"
+            site_url="https://${owner_lc}.github.io/${repo}/"
           fi
           cargo run --locked -- build --site-url "$site_url"
 
