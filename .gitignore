@@ -1,0 +1,13 @@
+/target/
+/dist/
+/dist.tmp/
+/bochen-site-v6-resume-reference/
+.DS_Store
+.env
+.env.*
+!.env.example
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
