@@ -82,7 +82,7 @@ fn builds_published_site_and_hides_drafts() {
     assert!(
         fs::read_to_string(root.join("dist/feed.xml"))
             .unwrap()
-            .contains("https://6ixGODD.github.io/bwww/posts/first/")
+            .contains("https://6ixgodd.github.io/posts/first/")
     );
     fs::remove_dir_all(root).unwrap();
 }

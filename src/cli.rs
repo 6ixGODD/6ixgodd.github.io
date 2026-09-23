@@ -18,14 +18,14 @@ pub enum Command {
         slug: Option<String>,
     },
     Build {
-        #[arg(long, default_value = "https://6ixGODD.github.io/bwww/")]
+        #[arg(long, default_value = "https://6ixgodd.github.io/")]
         site_url: String,
     },
     Check,
     Serve {
         #[arg(long, default_value_t = 8080)]
         port: u16,
-        #[arg(long, default_value = "https://6ixGODD.github.io/bwww/")]
+        #[arg(long, default_value = "https://6ixgodd.github.io/")]
         site_url: String,
     },
 }
