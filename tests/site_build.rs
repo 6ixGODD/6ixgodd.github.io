@@ -59,11 +59,13 @@ fn builds_published_site_and_hides_drafts() {
     assert!(!home.contains("posts/draft/"));
     assert!(root.join("dist/posts/first/diagram.svg").exists());
     assert!(root.join("dist/posts/first/index.rst").exists());
+    assert!(root.join("dist/posts/first/index.txt").exists());
     assert!(!root.join("dist/posts/draft").exists());
     assert!(root.join("dist/tags/rust/index.html").exists());
     let post = fs::read_to_string(root.join("dist/posts/first/index.html")).unwrap();
     assert!(post.contains("href=\"../../archive/\""));
     assert!(post.contains("<strong>real</strong>"));
+    assert!(post.contains("href=\"index.txt\">raw</a>"));
     assert!(root.join("dist/archive/2026/09/index.html").exists());
     assert!(
         fs::read_to_string(root.join("dist/search-index.json"))
@@ -71,6 +73,12 @@ fn builds_published_site_and_hides_drafts() {
             .contains("first")
     );
     assert!(root.join("dist/.nojekyll").exists());
+    let resume = fs::read_to_string(root.join("dist/resume/index.html")).unwrap();
+    assert!(resume.contains("href=\"resume.txt\">raw</a>"));
+    assert_eq!(
+        fs::read(root.join("dist/resume/resume.rst")).unwrap(),
+        fs::read(root.join("dist/resume/resume.txt")).unwrap()
+    );
     assert!(
         fs::read_to_string(root.join("dist/feed.xml"))
             .unwrap()

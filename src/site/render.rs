@@ -229,7 +229,7 @@ pub fn build(content: &SiteContent, site_url: &str) -> Result<()> {
         ""
     };
     let resume = format!(
-        "<article><header><h1>{}</h1><p class=\"meta mono\"><a href=\"resume.rst\">raw</a>{pdf_link}</p></header>{}<p class=\"mono\">[end]</p></article>",
+        "<article><header><h1>{}</h1><p class=\"meta mono\"><a href=\"resume.txt\">raw</a>{pdf_link}</p></header>{}<p class=\"mono\">[end]</p></article>",
         escape(&content.resume.title),
         resume_html(&content.resume)
     );
@@ -241,6 +241,10 @@ pub fn build(content: &SiteContent, site_url: &str) -> Result<()> {
     copy(
         Path::new("content/resume.rst"),
         &out.join("resume/resume.rst"),
+    )?;
+    copy(
+        Path::new("content/resume.rst"),
+        &out.join("resume/resume.txt"),
     )?;
     if has_pdf {
         copy(Path::new("content/resume.pdf"), &out.join("resume.pdf"))?;
@@ -255,7 +259,7 @@ pub fn build(content: &SiteContent, site_url: &str) -> Result<()> {
             meta.push_str(&format!(" · <a href=\"../../tags/{tag}/\">{tag}</a>"));
             tags.entry(tag).or_default().push(post);
         }
-        meta.push_str(" · <a href=\"index.rst\">raw</a>");
+        meta.push_str(" · <a href=\"index.txt\">raw</a>");
         let body = format!(
             "<article><header><h1>{}</h1><p class=\"meta mono\">{meta}</p></header>{}<p class=\"mono\">[end]</p></article>",
             escape(&post.document.title),
@@ -267,6 +271,7 @@ pub fn build(content: &SiteContent, site_url: &str) -> Result<()> {
             &shell(&post.document.title, &post.meta.lang, 2, &body),
         )?;
         copy(&post.source, &out.join(format!("posts/{slug}/index.rst")))?;
+        copy(&post.source, &out.join(format!("posts/{slug}/index.txt")))?;
         for asset in &post.assets {
             let relative = asset
                 .strip_prefix(post.source.parent().unwrap())
