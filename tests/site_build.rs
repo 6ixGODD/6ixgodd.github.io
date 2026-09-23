@@ -102,3 +102,22 @@ fn invalid_content_does_not_replace_existing_site() {
     assert!(root.join("dist/posts/first/index.html").exists());
     fs::remove_dir_all(root).unwrap();
 }
+
+#[test]
+fn builds_before_the_first_post_exists() {
+    let root = fixture();
+    fs::remove_dir_all(root.join("content/posts")).unwrap();
+    assert!(run(&root, "check").status.success());
+    let output = run(&root, "build");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert!(
+        fs::read_to_string(root.join("dist/index.html"))
+            .unwrap()
+            .contains("no published posts")
+    );
+    fs::remove_dir_all(root).unwrap();
+}

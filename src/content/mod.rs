@@ -66,19 +66,14 @@ fn validate_static(path: &Path) -> Result<()> {
 }
 
 pub fn load() -> Result<SiteContent> {
-    for required in [
-        "content/summary.rst",
-        "content/resume.rst",
-        "content/posts",
-        "static",
-    ] {
+    for required in ["content/summary.rst", "content/resume.rst", "static"] {
         if !Path::new(required).exists() {
             return Err(Error::InvalidWorkspace(format!(
                 "required path does not exist: {required}"
             )));
         }
     }
-    for root in ["content", "content/posts", "static"] {
+    for root in ["content", "static"] {
         let path = Path::new(root);
         if path.symlink_metadata().at(path)?.file_type().is_symlink() {
             return Err(source_error(path, 1, "source roots cannot be symlinks"));
@@ -97,10 +92,24 @@ pub fn load() -> Result<SiteContent> {
     let mut posts = Vec::new();
     let mut slugs = BTreeSet::new();
     let root = Path::new("content/posts");
-    let mut dirs = fs::read_dir(root)
-        .at(root)?
-        .collect::<std::io::Result<Vec<_>>>()
-        .at(root)?;
+    let mut dirs = match root.symlink_metadata() {
+        Ok(meta) => {
+            if meta.file_type().is_symlink() || !meta.is_dir() {
+                return Err(source_error(root, 1, "source roots cannot be symlinks"));
+            }
+            fs::read_dir(root)
+                .at(root)?
+                .collect::<std::io::Result<Vec<_>>>()
+                .at(root)?
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Vec::new(),
+        Err(source) => {
+            return Err(Error::Io {
+                path: root.to_path_buf(),
+                source,
+            });
+        }
+    };
     dirs.sort_by_key(|entry| entry.file_name());
     for entry in dirs {
         let path = entry.path();
