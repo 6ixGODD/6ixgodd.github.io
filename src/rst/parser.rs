@@ -2,6 +2,7 @@ use std::path::Path;
 
 use crate::error::{Error, Result};
 use crate::rst::ast::{Block, Document};
+use latex2mathml::{DisplayStyle, latex_to_mathml};
 
 fn fail(path: &Path, line: usize, message: impl Into<String>) -> Error {
     Error::Source {
@@ -84,6 +85,45 @@ pub fn parse(path: &Path, source: &str) -> Result<Document> {
             }
         }
         if let Some(rest) = line.strip_prefix(".. ") {
+            if let Some(reference) = rest.strip_prefix('[') {
+                let (label, target) = reference
+                    .split_once("] ")
+                    .ok_or_else(|| fail(path, i + 1, "invalid reference definition"))?;
+                if !valid_reference_label(label) {
+                    return Err(fail(path, i + 1, "invalid reference label"));
+                }
+                let (title, url) = target
+                    .strip_prefix('`')
+                    .and_then(|s| s.strip_suffix("`_"))
+                    .and_then(|s| s.rsplit_once(" <"))
+                    .and_then(|(title, url)| url.strip_suffix('>').map(|url| (title, url)))
+                    .ok_or_else(|| fail(path, i + 1, "invalid reference target"))?;
+                if title.is_empty() || !safe_href(url) {
+                    return Err(fail(path, i + 1, "invalid reference target"));
+                }
+                if blocks.iter().any(
+                    |block| matches!(block, Block::Reference(existing, _, _) if existing == label),
+                ) {
+                    return Err(fail(path, i + 1, "duplicate reference label"));
+                }
+                blocks.push(Block::Reference(
+                    label.to_owned(),
+                    title.to_owned(),
+                    url.to_owned(),
+                ));
+                i += 1;
+                continue;
+            }
+            if let Some(title) = rest.strip_prefix("note::") {
+                let title = title.trim();
+                let title = (!title.is_empty()).then(|| title.to_owned());
+                i += 1;
+                if i < lines.len() && lines[i].trim().is_empty() {
+                    i += 1;
+                }
+                blocks.push(Block::Note(title, indented(path, &lines, &mut i)?));
+                continue;
+            }
             if let Some(lang) = rest.strip_prefix("code-block::") {
                 let lang = lang.trim();
                 if !lang.is_empty()
@@ -130,26 +170,9 @@ pub fn parse(path: &Path, source: &str) -> Result<Document> {
                     i += 1;
                 }
                 let expression = indented(path, &lines, &mut i)?;
-                if expression.chars().any(|ch| {
-                    !(ch.is_alphanumeric() || ch.is_whitespace() || "+-=*/()^_,.<>".contains(ch))
-                }) {
-                    return Err(fail(
-                        path,
-                        i,
-                        "unsupported math syntax; use identifiers, numbers and basic operators",
-                    ));
-                }
-                for (position, ch) in expression.chars().enumerate() {
-                    if matches!(ch, '^' | '_')
-                        && !expression
-                            .chars()
-                            .nth(position + 1)
-                            .is_some_and(|next| next.is_alphanumeric())
-                    {
-                        return Err(fail(path, i, "math script needs an identifier or number"));
-                    }
-                }
-                blocks.push(Block::Math(expression));
+                let mathml = latex_to_mathml(&expression, DisplayStyle::Block)
+                    .map_err(|error| fail(path, i, format!("invalid math expression: {error}")))?;
+                blocks.push(Block::Math(mathml));
                 continue;
             }
             return Err(fail(path, i + 1, "unsupported directive"));
@@ -274,6 +297,13 @@ fn safe_href(target: &str) -> bool {
             || (!target.starts_with('/') && !target.starts_with("//") && !target.contains(':')))
 }
 
+fn valid_reference_label(label: &str) -> bool {
+    !label.is_empty()
+        && label
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b == b'-')
+}
+
 fn is_bullet(line: &str) -> Option<&str> {
     for prefix in ["* ", "- ", "+ "] {
         if let Some(rest) = line.strip_prefix(prefix) {
@@ -348,5 +378,15 @@ mod tests {
             )
             .is_err()
         );
+    }
+
+    #[test]
+    fn renders_article_math_notes_and_references() {
+        let source = "Title\n=====\n\nSee [layout]_.\n\n.. math::\n\n   2 \\times 16 + 1 \\times 4 = 36\\ \\text{bytes}\n\n.. note:: About layout\n\n   Indexes use ``strides``.\n\n.. [layout] `Array layout <https://example.com/layout>`_\n";
+        let html = render_html(&parse(Path::new("sample.rst"), source).unwrap());
+        assert!(html.contains("<a href=\"#ref-layout\">[layout]</a>"));
+        assert!(html.contains("<math"));
+        assert!(html.contains("<aside class=\"note\">"));
+        assert!(html.contains("<p id=\"ref-layout\">"));
     }
 }

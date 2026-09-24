@@ -13,6 +13,8 @@ pub enum Block {
     },
     Table(Vec<Vec<String>>),
     Math(String),
+    Note(Option<String>, String),
+    Reference(String, String, String),
 }
 
 #[derive(Debug, Clone)]

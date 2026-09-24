@@ -61,46 +61,29 @@ pub fn inline(value: &str) -> String {
                 }
             }
         }
+        if let Some(after) = rest.strip_prefix('[') {
+            if let Some(end) = after.find("]_") {
+                let label = &after[..end];
+                if !label.is_empty()
+                    && label
+                        .bytes()
+                        .all(|b| b.is_ascii_alphanumeric() || b == b'-')
+                {
+                    out.push_str("<a href=\"#ref-");
+                    out.push_str(label);
+                    out.push_str("\">[");
+                    out.push_str(label);
+                    out.push_str("]</a>");
+                    rest = &after[end + 2..];
+                    continue;
+                }
+            }
+        }
         let ch = rest.chars().next().unwrap();
         out.push_str(&escape(&ch.to_string()));
         rest = &rest[ch.len_utf8()..];
     }
     out
-}
-
-fn mathml(value: &str) -> String {
-    let mut tokens = Vec::new();
-    let mut chars = value.chars().peekable();
-    while let Some(ch) = chars.next() {
-        if ch.is_whitespace() {
-            continue;
-        }
-        if ch.is_alphanumeric() {
-            let mut word = ch.to_string();
-            while chars.peek().is_some_and(|next| next.is_alphanumeric()) {
-                word.push(chars.next().unwrap());
-            }
-            let tag = if word.chars().all(|c| c.is_numeric()) {
-                "mn"
-            } else {
-                "mi"
-            };
-            tokens.push(format!("<{tag}>{}</{tag}>", escape(&word)));
-        } else if matches!(ch, '^' | '_') {
-            if let (Some(base), Some(next)) = (tokens.pop(), chars.next()) {
-                let script = if next.is_numeric() {
-                    format!("<mn>{next}</mn>")
-                } else {
-                    format!("<mi>{}</mi>", escape(&next.to_string()))
-                };
-                let tag = if ch == '^' { "msup" } else { "msub" };
-                tokens.push(format!("<{tag}>{base}{script}</{tag}>"));
-            }
-        } else {
-            tokens.push(format!("<mo>{}</mo>", escape(&ch.to_string())));
-        }
-    }
-    format!("<mrow>{}</mrow>", tokens.join(""))
 }
 
 pub fn render_html(document: &Document) -> String {
@@ -178,9 +161,34 @@ pub fn render_html(document: &Document) -> String {
                 out.push_str("</table>\n");
             }
             Block::Math(value) => {
-                out.push_str("<div class=\"math\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\">");
-                out.push_str(&mathml(value));
-                out.push_str("</math></div>\n");
+                out.push_str("<div class=\"math\">");
+                out.push_str(value);
+                out.push_str("</div>\n");
+            }
+            Block::Note(title, body) => {
+                out.push_str("<aside class=\"note\">");
+                if let Some(title) = title {
+                    out.push_str("<p><strong>");
+                    out.push_str(&inline(title));
+                    out.push_str("</strong></p>");
+                }
+                for paragraph in body.split("\n\n") {
+                    out.push_str("<p>");
+                    out.push_str(&inline(&paragraph.replace('\n', " ")));
+                    out.push_str("</p>");
+                }
+                out.push_str("</aside>\n");
+            }
+            Block::Reference(label, title, url) => {
+                out.push_str("<p id=\"ref-");
+                out.push_str(label);
+                out.push_str("\">[");
+                out.push_str(label);
+                out.push_str("] <a href=\"");
+                out.push_str(&escape(url));
+                out.push_str("\">");
+                out.push_str(&escape(title));
+                out.push_str("</a></p>\n");
             }
         }
     }
