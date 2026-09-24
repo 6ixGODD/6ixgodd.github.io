@@ -9,7 +9,7 @@ NumPy: ndarray 的内存模型
 
 NumPy 为什么快？
 
-一种常见的解释是：它将逐元素运算交给编译后的 C 代码执行，减少了 Python 循环中解释执行和操作 Python 对象的开销。[overview]_
+一种常见的解释是：它将逐元素运算交给编译后的 C 代码执行，减少了 Python 循环中解释执行和操作 Python 对象的开销。
 
 不过，执行语言并不是性能的唯一因素，数据的组织和访问方式同样重要。本文以 ``a[2, 1]`` 的访问过程为线索，分析 ``ndarray`` 的内存布局，以及多维索引与元素地址之间的关系。
 
@@ -35,7 +35,7 @@ NumPy 为什么快？
    print(a.shape)    # (3, 4)
    print(a.strides)  # (16, 4)
 
-``shape`` 表示各维度的长度，``strides`` 则记录沿各轴移动一个索引位置时，元素地址的字节增量。[layout]_
+``shape`` 表示各维度的长度，``strides`` 则记录沿各轴移动一个索引位置时，元素地址的字节增量。
 
 在这个数组中，每个 ``int32`` 占四字节，元素按行连续存储。列索引增加一，地址增加四字节；行索引增加一，地址增加一行的大小，即十六字节。因此，``a[2, 1]`` 相对于首元素的偏移为：
 
@@ -43,7 +43,7 @@ NumPy 为什么快？
 
    2 \times 16 + 1 \times 4 = 36\ \text{bytes}
 
-通过 ``a.ctypes.data`` 取得数据地址，可以使用标准库 ``ctypes`` 直接读取这个位置，验证上述计算：[ctypes]_
+通过 ``a.ctypes.data`` 取得数据地址，可以使用标准库 ``ctypes`` 直接读取这个位置，验证上述计算：
 
 .. code-block:: python
 
@@ -56,7 +56,7 @@ NumPy 为什么快？
    print(value)  # 9
    assert value == a[2, 1]
 
-读取结果与 NumPy 一致。对于二维数组，合法的非负整数索引可以按以下公式转换为地址：[layout]_
+读取结果与 NumPy 一致。对于二维数组，合法的非负整数索引可以按以下公式转换为地址：
 
 .. math::
 
@@ -74,7 +74,7 @@ NumPy 为什么快？
 
    本文保留了被访问的数组，并且只读取已知有效的地址。
    ``ctypes`` 不检查数组索引是否越界；
-   ``a.ctypes.data`` 返回的地址整数也不会维持数组的生命周期。[ctypes]_
+   ``a.ctypes.data`` 返回的地址整数也不会维持数组的生命周期。
 
 
 2. 视图与步长
@@ -88,15 +88,15 @@ NumPy 为什么快？
 
    b = a.T
 
-   print(b.shape)                        # (4, 3)
-   print(b.strides)                      # (4, 16)
+   print(b.shape)                         # (4, 3)
+   print(b.strides)                       # (4, 16)
    print(b.ctypes.data == a.ctypes.data)  # True
 
 ``b[1, 2]`` 的偏移变成 ``1 * 4 + 2 * 16``，仍为三十六字节，与 ``a[2, 1]`` 指向同一个位置。
 
-这里需要区分数组对象与元素数据。``b`` 是新的数组对象，具有自己的形状和步长，但与 ``a`` 共享元素数据。这类数组称为视图（view）。[views]_
+这里需要区分数组对象与元素数据。``b`` 是新的数组对象，具有自己的形状和步长，但与 ``a`` 共享元素数据。这类数组称为视图（view）。
 
-NumPy v2.5.2 的 ``numpy/_core/src/multiarray/shape.c`` 中，``PyArray_Transpose`` 在创建返回数组时复用了 ``PyArray_DATA(ap)``，随后根据轴顺序填写维度和步长：[transpose-source]_
+NumPy v2.5.2 的 ``numpy/_core/src/multiarray/shape.c`` 中，``PyArray_Transpose`` 在创建返回数组时复用了 ``PyArray_DATA(ap)``，随后根据轴顺序填写维度和步长：
 
 .. code-block:: c
 
@@ -111,7 +111,7 @@ NumPy v2.5.2 的 ``numpy/_core/src/multiarray/shape.c`` 中，``PyArray_Transpos
 切片的地址变化
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-基本切片同样可以通过修改步长和数据起点实现。[views]_
+基本切片同样可以通过修改步长和数据起点实现。
 
 例如，``a[:, ::2]`` 保留每隔一列的元素。新数组的列索引增加一，对应原数组的列索引增加二，因此列步长应由四字节变为八字节：
 
@@ -132,7 +132,7 @@ NumPy v2.5.2 的 ``numpy/_core/src/multiarray/shape.c`` 中，``PyArray_Transpos
 
    print(d.shape)                         # (3, 4)
    print(d.strides)                       # (-16, 4)
-   print(d.ctypes.data - a.ctypes.data)    # 32
+   print(d.ctypes.data - a.ctypes.data)   # 32
 
 原有的寻址公式仍然适用。例如：
 
@@ -148,7 +148,7 @@ NumPy v2.5.2 的 ``numpy/_core/src/multiarray/shape.c`` 中，``PyArray_Transpos
 
 因此，``d[2, 1]`` 对应 ``a[0, 1]``，其值为 ``1``。
 
-反向切片说明，数据指针应当理解为当前非空数组的逻辑首元素地址，而不是底层内存分配的起始地址。``a`` 与 ``d`` 的数据指针虽然不同，访问的内存仍然重叠。判断是否共享内存，不能只比较这两个地址：[layout]_ [shares-memory]_
+反向切片说明，数据指针应当理解为当前非空数组的逻辑首元素地址，而不是底层内存分配的起始地址。``a`` 与 ``d`` 的数据指针虽然不同，访问的内存仍然重叠。判断是否共享内存，不能只比较这两个地址：
 
 .. code-block:: python
 
@@ -162,7 +162,7 @@ NumPy v2.5.2 的 ``numpy/_core/src/multiarray/shape.c`` 中，``PyArray_Transpos
 
    连续性与共享内存是不同的属性。本例中，``a`` 是 C-contiguous，
    ``b`` 是 F-contiguous，而 ``c``、``d`` 两者都不是。
-   转置后的数组不再按行连续，并不意味着它在任何顺序下都不连续。[layout]_
+   转置后的数组不再按行连续，并不意味着它在任何顺序下都不连续。
 
 
 3. dtype 与元素布局
@@ -183,11 +183,11 @@ NumPy v2.5.2 的 ``numpy/_core/src/multiarray/shape.c`` 中，``PyArray_Transpos
    assert np.shares_memory(x, y)
    assert not np.shares_memory(x, z)
 
-``x`` 与 ``y`` 共享四个字节，分别按 ``float32`` 和 ``uint32`` 解释。``view`` 没有进行数值转换；``1065353216`` 是原有浮点表示被当作无符号整数读取的结果。[dtype-view]_
+``x`` 与 ``y`` 共享四个字节，分别按 ``float32`` 和 ``uint32`` 解释。``view`` 没有进行数值转换；``1065353216`` 是原有浮点表示被当作无符号整数读取的结果。
 
-``astype`` 则将数值 ``1.0`` 转换成整数 ``1``，本例中为转换结果分配了独立存储。重新解释已有字节与转换数值，是两种不同的操作。[dtype-cast]_
+``astype`` 则将数值 ``1.0`` 转换成整数 ``1``，本例中为转换结果分配了独立存储。重新解释已有字节与转换数值，是两种不同的操作。
 
-dtype 描述的就是元素的解释规则，包括类型、大小、字节序，以及结构化类型的字段信息。数组的形状和步长负责元素之间的布局，dtype 还可以描述一个元素内部的布局。[dtype]_
+dtype 描述的就是元素的解释规则，包括类型、大小、字节序，以及结构化类型的字段信息。数组的形状和步长负责元素之间的布局，dtype 还可以描述一个元素内部的布局。
 
 
 结构化 dtype
@@ -225,9 +225,9 @@ dtype 描述的就是元素的解释规则，包括类型、大小、字节序�
    print(scores.strides)                            # (12,)
    print(scores.ctypes.data - records.ctypes.data)  # 4
 
-``scores`` 是共享原数据的字段视图。每个分数占八字节，相邻分数却相距十二字节，因为记录中还保存了编号。元素大小描述元素自身的存储长度，步长描述沿某个轴移动时的地址增量，两者不能等同。[structured]_
+``scores`` 是共享原数据的字段视图。每个分数占八字节，相邻分数却相距十二字节，因为记录中还保存了编号。元素大小描述元素自身的存储长度，步长描述沿某个轴移动时的地址增量，两者不能等同。
 
-上述 dtype 默认采用 ``align=False``，字段之间没有对齐填充，因此每条记录为十二字节。与 C 代码交换数据时，应核对字段偏移和结构体大小，不能直接假定它与同字段的 C 结构体布局一致。[structured]_
+上述 dtype 默认采用 ``align=False``，字段之间没有对齐填充，因此每条记录为十二字节。与 C 代码交换数据时，应核对字段偏移和结构体大小，不能直接假定它与同字段的 C 结构体布局一致。
 
 
 C API 中的元素读取
@@ -243,9 +243,9 @@ C 扩展可以自行计算元素地址，再将类型相关的读取交给 NumPy
 
    return PyArray_GETITEM(arr, address);
 
-地址计算与前文相同，但不再将地址处的数据固定解释为 ``int32``。``PyArray_GETITEM`` 根据数组的 dtype 读取该位置并返回 Python 对象。[array-api]_
+地址计算与前文相同，但不再将地址处的数据固定解释为 ``int32``。``PyArray_GETITEM`` 根据数组的 dtype 读取该位置并返回 Python 对象。
 
-NumPy v2.5.2 在 ``numpy/_core/include/numpy/ndarrayobject.h`` 中为下游扩展提供的实现如下：[getitem-source]_
+NumPy v2.5.2 在 ``numpy/_core/include/numpy/ndarrayobject.h`` 中为下游扩展提供的实现如下：
 
 .. code-block:: c
 
@@ -258,7 +258,7 @@ NumPy v2.5.2 在 ``numpy/_core/include/numpy/ndarrayobject.h`` 中为下游扩�
 
 ``PyArray_DESCR`` 取得 dtype descriptor，``PyDataType_GetArrFuncs`` 取得对应的操作函数表，最终调用其中的 ``getitem``。类型差异由 dtype 对应的读取函数处理，外部代码不必为每种类型重复实现寻址逻辑。
 
-这个接口的取值语义对应 ``ndarray.item()``，并不完整复现普通索引。例如，``float32`` 数组的普通索引返回 NumPy 的 ``float32`` 标量，而 ``item()`` 返回 Python 的 ``float``。[array-api]_
+这个接口的取值语义对应 ``ndarray.item()``，并不完整复现普通索引。例如，``float32`` 数组的普通索引返回 NumPy 的 ``float32`` 标量，而 ``item()`` 返回 Python 的 ``float``。
 
 .. note:: 关于 dtype descriptor 的访问
 
@@ -270,7 +270,7 @@ NumPy v2.5.2 在 ``numpy/_core/include/numpy/ndarrayobject.h`` 中为下游扩�
    不宜继续依赖 ``descr->elsize``。
 
    NumPy 内部实现与下游扩展的兼容性要求不同。
-   阅读源码时可以研究结构体布局，编写扩展时则应优先使用公开接口。[migration]_
+   阅读源码时可以研究结构体布局，编写扩展时则应优先使用公开接口。
 
 
 4. 内存所有权与生命周期
@@ -290,7 +290,7 @@ NumPy v2.5.2 在 ``numpy/_core/include/numpy/ndarrayobject.h`` 中为下游扩�
    print(view.flags.owndata)   # False
    print(view.base is owner)   # True
 
-``owner`` 拥有数据内存，``view`` 不拥有数据，而是通过 ``base`` 引用 ``owner``。[array-api]_
+``owner`` 拥有数据内存，``view`` 不拥有数据，而是通过 ``base`` 引用 ``owner``。
 
 删除变量 ``owner`` 后，视图仍然有效：
 
@@ -301,13 +301,13 @@ NumPy v2.5.2 在 ``numpy/_core/include/numpy/ndarrayobject.h`` 中为下游扩�
    print(view)       # [0 2 4]
    print(view.base)  # [0 1 2 3 4 5]
 
-``del owner`` 解除的是变量名与对象的绑定。原数组仍被 ``view.base`` 引用，因此对象及其数据继续存活；这里既没有复制数据，也没有转移数据所有权。[python-del]_ [array-api]_
+``del owner`` 解除的是变量名与对象的绑定。原数组仍被 ``view.base`` 引用，因此对象及其数据继续存活；这里既没有复制数据，也没有转移数据所有权。
 
 这与第一节保存裸地址整数的做法不同。地址整数不持有数组引用，而视图通过对象引用维持共享存储的生命周期。
 
-``base`` 不一定是创建当前视图时的直接来源。NumPy 可以沿已有的 ``base`` 链追溯到底层对象，因此不能用它还原数组经历过的切片或转置操作。[array-api]_
+``base`` 不一定是创建当前视图时的直接来源。NumPy 可以沿已有的 ``base`` 链追溯到底层对象，因此不能用它还原数组经历过的切片或转置操作。
 
-这一机制也意味着，小切片可能使整块原始数据继续占用内存。需要解除这种依赖时，可以复制切片；新副本拥有独立存储，原始数据则在不再被其他对象引用后才具备释放条件。[indexing]_
+这一机制也意味着，小切片可能使整块原始数据继续占用内存。需要解除这种依赖时，可以复制切片；新副本拥有独立存储，原始数据则在不再被其他对象引用后才具备释放条件。
 
 
 结语
@@ -321,32 +321,32 @@ NumPy v2.5.2 在 ``numpy/_core/include/numpy/ndarrayobject.h`` 中为下游扩�
 参考资料
 --------------------------------------------------
 
-.. [overview] `What is NumPy? <https://numpy.org/doc/stable/user/whatisnumpy.html>`_
+* `What is NumPy? <https://numpy.org/doc/stable/user/whatisnumpy.html>`_
 
-.. [layout] `The N-dimensional array <https://numpy.org/doc/stable/reference/arrays.ndarray.html>`_
+* `The N-dimensional array <https://numpy.org/doc/stable/reference/arrays.ndarray.html>`_
 
-.. [ctypes] `numpy.ndarray.ctypes <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.ctypes.html>`_
+* `numpy.ndarray.ctypes <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.ctypes.html>`_
 
-.. [views] `Copies and views <https://numpy.org/doc/stable/user/basics.copies.html>`_
+* `Copies and views <https://numpy.org/doc/stable/user/basics.copies.html>`_
 
-.. [transpose-source] `NumPy v2.5.2：shape.c <https://github.com/numpy/numpy/blob/v2.5.2/numpy/_core/src/multiarray/shape.c>`_
+* `NumPy v2.5.2：shape.c <https://github.com/numpy/numpy/blob/v2.5.2/numpy/_core/src/multiarray/shape.c>`_
 
-.. [shares-memory] `numpy.shares_memory <https://numpy.org/doc/stable/reference/generated/numpy.shares_memory.html>`_
+* `numpy.shares_memory <https://numpy.org/doc/stable/reference/generated/numpy.shares_memory.html>`_
 
-.. [dtype-view] `numpy.ndarray.view <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.view.html>`_
+* `numpy.ndarray.view <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.view.html>`_
 
-.. [dtype-cast] `numpy.ndarray.astype <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.astype.html>`_
+* `numpy.ndarray.astype <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.astype.html>`_
 
-.. [dtype] `Data type objects <https://numpy.org/doc/stable/reference/arrays.dtypes.html>`_
+* `Data type objects <https://numpy.org/doc/stable/reference/arrays.dtypes.html>`_
 
-.. [structured] `Structured arrays <https://numpy.org/doc/stable/user/basics.rec.html>`_
+* `Structured arrays <https://numpy.org/doc/stable/user/basics.rec.html>`_
 
-.. [array-api] `Array API <https://numpy.org/doc/stable/reference/c-api/array.html>`_
+* `Array API <https://numpy.org/doc/stable/reference/c-api/array.html>`_
 
-.. [getitem-source] `NumPy v2.5.2：ndarrayobject.h <https://github.com/numpy/numpy/blob/v2.5.2/numpy/_core/include/numpy/ndarrayobject.h>`_
+* `NumPy v2.5.2：ndarrayobject.h <https://github.com/numpy/numpy/blob/v2.5.2/numpy/_core/include/numpy/ndarrayobject.h>`_
 
-.. [migration] `NumPy 2.0 migration guide <https://numpy.org/doc/stable/numpy_2_0_migration_guide.html>`_
+* `NumPy 2.0 migration guide <https://numpy.org/doc/stable/numpy_2_0_migration_guide.html>`_
 
-.. [python-del] `Python：The del statement <https://docs.python.org/3/reference/simple_stmts.html#the-del-statement>`_
+* `Python：The del statement <https://docs.python.org/3/reference/simple_stmts.html#the-del-statement>`_
 
-.. [indexing] `Indexing on ndarrays <https://numpy.org/doc/stable/user/basics.indexing.html>`_
+* `Indexing on ndarrays <https://numpy.org/doc/stable/user/basics.indexing.html>`_
