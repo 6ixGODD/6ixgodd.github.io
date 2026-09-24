@@ -5,7 +5,7 @@ NumPy: ndarray 的内存模型
 :slug: numpy-ndarray-memory-model
 :tags: numpy, zh
 :lang: zh
-:draft: true
+:draft: false
 
 NumPy 为什么快？
 
