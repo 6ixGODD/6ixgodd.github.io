@@ -27,7 +27,15 @@ pub fn parse(path: &Path, source: &str) -> Result<Document> {
     for (number, line) in lines.iter().enumerate() {
         let mut rest = *line;
         while let Some(start) = rest.find('`') {
-            rest = &rest[start + 1..];
+            rest = &rest[start..];
+            if let Some(code) = rest.strip_prefix("``") {
+                if let Some(end) = code.find("``") {
+                    rest = &code[end + 2..];
+                    continue;
+                }
+                break;
+            }
+            rest = &rest[1..];
             if let Some(end) = rest.find("`_") {
                 let link = &rest[..end];
                 let target = link
@@ -388,5 +396,11 @@ mod tests {
         assert!(html.contains("<math"));
         assert!(html.contains("<aside class=\"note\">"));
         assert!(html.contains("<p id=\"ref-layout\">"));
+    }
+
+    #[test]
+    fn accepts_multiple_inline_code_spans() {
+        let source = "Title\n=====\n\nUse ``slots=True`` with ``__dict__``.\n";
+        assert!(parse(Path::new("sample.rst"), source).is_ok());
     }
 }
