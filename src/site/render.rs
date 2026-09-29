@@ -60,7 +60,7 @@ struct SearchEntry<'a> {
 fn shell(title: &str, lang: &str, depth: usize, body: &str) -> String {
     let root = "../".repeat(depth);
     format!(
-        "<!doctype html>\n<html lang=\"{}\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width\"><title>{}</title><link rel=\"icon\" type=\"image/x-icon\" href=\"{root}favicon.ico\"><style>{CSS}</style></head><body>\n<nav><a href=\"{root}\">Bochen Shen</a> · <a href=\"{root}tags/\">tags</a> · <a href=\"{root}archive/\">archive</a> · <a href=\"{root}resume/\">resume</a> · <a href=\"https://github.com/6ixGODD\">github ↗</a> · <a href=\"mailto:6goddddddd@gmail.com\">email ↗</a></nav>\n{body}\n</body></html>\n",
+        "<!doctype html>\n<html lang=\"{}\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width\"><title>{}</title><link rel=\"icon\" type=\"image/x-icon\" href=\"{root}favicon-circle.ico\"><style>{CSS}</style></head><body>\n<nav><a href=\"{root}\">Bochen Shen</a> · <a href=\"{root}tags/\">tags</a> · <a href=\"{root}archive/\">archive</a> · <a href=\"{root}resume/\">resume</a> · <a href=\"https://github.com/6ixGODD\">github ↗</a> · <a href=\"mailto:6goddddddd@gmail.com\">email ↗</a></nav>\n{body}\n</body></html>\n",
         escape(lang),
         escape(title)
     )
