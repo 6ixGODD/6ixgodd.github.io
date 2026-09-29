@@ -5,7 +5,7 @@ Python: 类型系统的使用约定
 :slug: python-typing-guidelines
 :tags: python, typing, zh
 :lang: zh
-:draft: true
+:draft: false
 
 Python 是动态类型语言。类型注解没有改变这一点。
 
