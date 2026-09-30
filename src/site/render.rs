@@ -10,6 +10,7 @@ use crate::rst::ast::{Block, Document};
 use crate::rst::render::{escape, inline, render_html};
 
 const CSS: &str = "html{font-size:14px}body{max-width:76em;margin:1.15rem auto;padding:0 1rem;font-family:\"Times New Roman\",Times,serif;line-height:1.35}nav,.mono,pre,code,kbd,samp,table,input{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace}nav{margin-bottom:1rem}pre{overflow-x:auto;padding:.5rem .65rem;border-left:2px solid #bbb;background:#fafafa}code{font-size:.94em}h1{font-size:1.45rem;margin:.45rem 0}h2{font-size:1.08rem;margin:1.15rem 0 .4rem}p,ul,ol,blockquote,table,figure{margin:.65rem 0}blockquote{margin-left:1rem;padding-left:.8rem;border-left:2px solid #bbb}table{border-collapse:collapse;font-size:.92rem}th,td{padding:.25rem .7rem .25rem 0;text-align:left;vertical-align:top}figure{margin-left:0}figcaption{font-size:.9rem;font-style:italic}img{max-width:100%;height:auto}.meta{font-size:.9rem}.note{margin:1rem 0;padding:.25rem .8rem;border-left:3px solid #888;background:#f4f4f4}.note p{margin:.5rem 0}.math{overflow-x:auto;margin:.8rem 0}input{font-size:.95rem}hr{border:0;border-top:1px solid #bbb}[hidden]{display:none!important}";
+const CODE_CSS: &str = "pre{line-height:1.5}pre .syn-keyword:not(.syn-operator),pre .syn-storage{font-weight:700}pre .syn-string{color:#395b45}pre .syn-comment{color:#666}pre .syn-comment *{color:inherit;font-weight:400}";
 const SEARCH_JS: &str = r#"const input = document.querySelector('#search');
 const latest = document.querySelector('#latest');
 const results = document.querySelector('#results');
@@ -60,7 +61,7 @@ struct SearchEntry<'a> {
 fn shell(title: &str, lang: &str, depth: usize, body: &str) -> String {
     let root = "../".repeat(depth);
     format!(
-        "<!doctype html>\n<html lang=\"{}\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width\"><title>{}</title><link rel=\"icon\" type=\"image/x-icon\" href=\"{root}favicon.ico?v=2\"><style>{CSS}</style></head><body>\n<nav><a href=\"{root}\">Bochen Shen</a> · <a href=\"{root}tags/\">tags</a> · <a href=\"{root}archive/\">archive</a> · <a href=\"{root}resume/\">resume</a> · <a href=\"https://github.com/6ixGODD\">github ↗</a> · <a href=\"mailto:6goddddddd@gmail.com\">email ↗</a></nav>\n{body}\n</body></html>\n",
+        "<!doctype html>\n<html lang=\"{}\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width\"><title>{}</title><link rel=\"icon\" type=\"image/x-icon\" href=\"{root}favicon.ico?v=2\"><style>{CSS}{CODE_CSS}</style></head><body>\n<nav><a href=\"{root}\">Bochen Shen</a> · <a href=\"{root}tags/\">tags</a> · <a href=\"{root}archive/\">archive</a> · <a href=\"{root}resume/\">resume</a> · <a href=\"https://github.com/6ixGODD\">github ↗</a> · <a href=\"mailto:6goddddddd@gmail.com\">email ↗</a></nav>\n{body}\n</body></html>\n",
         escape(lang),
         escape(title)
     )

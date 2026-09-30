@@ -366,7 +366,8 @@ mod tests {
         assert!(html.contains("<strong>bold</strong>"));
         assert!(html.contains("<a href=\"https://example.com\">link</a>"));
         assert!(html.contains("<li>one</li>"));
-        assert!(html.contains("<pre><code class=\"language-rust\">let x = 1;</code></pre>"));
+        assert!(html.contains("<pre><code class=\"language-rust\">"));
+        assert!(html.contains("syn-storage"));
         assert!(html.contains("<msup><mi>x</mi><mn>2</mn></msup>"));
     }
 

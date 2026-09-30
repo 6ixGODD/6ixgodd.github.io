@@ -1,4 +1,40 @@
+use std::sync::OnceLock;
+
+use syntect::html::{ClassStyle, ClassedHTMLGenerator};
+use syntect::parsing::SyntaxSet;
+use syntect::util::LinesWithEndings;
+
 use crate::rst::ast::{Block, Document};
+
+fn highlight_code(language: &str, body: &str) -> String {
+    if matches!(language, "" | "text" | "txt" | "plaintext") {
+        return escape(body);
+    }
+    static SYNTAXES: OnceLock<SyntaxSet> = OnceLock::new();
+    let syntaxes = SYNTAXES.get_or_init(two_face::syntax::extra_newlines);
+    let token = match language {
+        "bash" | "shell" => "sh",
+        "yml" => "yaml",
+        other => other,
+    };
+    let Some(syntax) = syntaxes.find_syntax_by_token(token) else {
+        return escape(body);
+    };
+    let mut generator = ClassedHTMLGenerator::new_with_class_style(
+        syntax,
+        syntaxes,
+        ClassStyle::SpacedPrefixed { prefix: "syn-" },
+    );
+    for line in LinesWithEndings::from(body) {
+        if generator
+            .parse_html_for_line_which_includes_newline(line)
+            .is_err()
+        {
+            return escape(body);
+        }
+    }
+    generator.finalize()
+}
 
 pub fn escape(value: &str) -> String {
     let mut out = String::with_capacity(value.len());
@@ -127,7 +163,7 @@ pub fn render_html(document: &Document) -> String {
                     out.push('"');
                 }
                 out.push('>');
-                out.push_str(&escape(body));
+                out.push_str(&highlight_code(lang, body));
                 out.push_str("</code></pre>\n");
             }
             Block::Quote(value) => {
@@ -193,4 +229,66 @@ pub fn render_html(document: &Document) -> String {
         }
     }
     out
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{escape, highlight_code};
+
+    fn code_text(html: &str) -> String {
+        let mut text = String::new();
+        let mut in_tag = false;
+        for ch in html.chars() {
+            match ch {
+                '<' => in_tag = true,
+                '>' => in_tag = false,
+                _ if !in_tag => text.push(ch),
+                _ => {}
+            }
+        }
+        text.replace("&lt;", "<")
+            .replace("&gt;", ">")
+            .replace("&quot;", "\"")
+            .replace("&#39;", "'")
+            .replace("&amp;", "&")
+    }
+
+    #[test]
+    fn highlights_languages_used_by_posts_without_changing_code() {
+        for (language, code) in [
+            (
+                "python",
+                "def greet(name):\n    # Keep <html> & indentation\n    return \"hello\"\n",
+            ),
+            ("c", "int main(void) { return 0; }"),
+            ("rust", "let x = \"<script>\";"),
+            ("bash", "if true; then\n  echo \"hello\"\nfi"),
+            ("toml", "[tool]\nname = \"example\""),
+            ("yaml", "name: \"example\"\nitems:\n  - one"),
+            ("ini", "[section]\nname=example"),
+        ] {
+            let html = highlight_code(language, code);
+            assert!(
+                html.contains("<span"),
+                "missing highlighting for {language}"
+            );
+            assert!(!html.contains("<script>"));
+            assert_eq!(code_text(&html), code, "code changed for {language}");
+        }
+        let python = highlight_code(
+            "python",
+            "def greet():\n    # comment\n    return \"hello\"",
+        );
+        assert!(python.contains("syn-keyword") || python.contains("syn-storage"));
+        assert!(python.contains("syn-comment"));
+        assert!(python.contains("syn-string"));
+    }
+
+    #[test]
+    fn preserves_plain_text_and_unknown_languages() {
+        let code = "  <script>alert('x')</script> & \"text\"\n";
+        for language in ["", "text", "unknown-language"] {
+            assert_eq!(highlight_code(language, code), escape(code));
+        }
+    }
 }
