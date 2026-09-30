@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="405" version="1.1" viewBox="0 0 1020 405" width="1020">
+  <defs>
+    <style type="text/css"><![CDATA[text{font-family:"Times New Roman",Times,serif}]]></style>
+  </defs>
+  <rect fill="white" height="405" width="1020" x="0" y="0"/>
+  <text fill="#262626" font-size="20" font-weight="bold" text-anchor="middle" x="170" y="28">处理 s 后</text>
+  <polyline fill="none" points="66.42063804207335,156.22756034237506 134.17667003939533,105.56884483035863" stroke="#425c70" stroke-width="1.5"/>
+  <polygon fill="#425c70" points="134.17667003939533,105.56884483035863 125.37428469300026,107.15566939960672 130.16469848695675,113.56284784902354"/>
+  <rect fill="white" height="23" width="30" x="86.5" y="106.0"/>
+  <text fill="#425c70" font-size="17" font-weight="normal" text-anchor="middle" x="101.5" y="123.0">10</text>
+  <polyline fill="none" points="66.42063804207335,183.77243965762494 134.17667003939533,234.43115516964139" stroke="#425c70" stroke-width="1.5"/>
+  <polygon fill="#425c70" points="134.17667003939533,234.43115516964139 130.16469848695675,226.4371521509765 125.37428469300026,232.84433060039328"/>
+  <rect fill="white" height="23" width="30" x="79.5" y="205.0"/>
+  <text fill="#425c70" font-size="17" font-weight="normal" text-anchor="middle" x="94.5" y="222.0">2</text>
+  <polyline fill="none" points="155.0,227.0 155.0,116.0" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="155.0,116.0 151.0,124.0 159.0,124.0"/>
+  <rect fill="white" height="23" width="30" x="158.0" y="153.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="173.0" y="170.0">3</text>
+  <polyline fill="none" points="174.54640460739063,237.8781986930911 261.90406435686276,183.70290582520138" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="261.90406435686276,183.70290582520138 252.99717557048186,184.51980982631915 257.21345428592844,191.31855925497678"/>
+  <rect fill="white" height="23" width="30" x="209.5" y="205.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="224.5" y="222.0">10</text>
+  <polyline fill="none" points="174.54640460739063,102.1218013069089 261.90406435686276,156.29709417479862" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="261.90406435686276,156.29709417479862 257.21345428592844,148.68144074502322 252.99717557048186,155.48019017368085"/>
+  <rect fill="white" height="23" width="30" x="208.5" y="105.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="223.5" y="122.0">1</text>
+  <circle cx="48" cy="170" fill="#e4e7e9" r="23" stroke="#262626" stroke-width="1.5"/>
+  <circle cx="48" cy="170" fill="none" r="19" stroke="#262626" stroke-width="1"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="48" y="176">s</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="48" y="215">d=0</text>
+  <circle cx="155" cy="90" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="155" y="96">a</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="155" y="56">d=10</text>
+  <circle cx="155" cy="250" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="155" y="256">b</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="155" y="295">d=2</text>
+  <circle cx="284" cy="170" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="284" y="176">t</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="284" y="215">d=∞</text>
+  <circle cx="282" cy="292" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="282" y="298">z</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="282" y="337">d=∞</text>
+  <polyline fill="none" points="336,12 336,344" stroke="#ddd" stroke-width="1"/>
+  <text fill="#262626" font-size="20" font-weight="bold" text-anchor="middle" x="510" y="28">处理 b 后</text>
+  <polyline fill="none" points="406.42063804207334,156.22756034237506 474.17667003939533,105.56884483035863" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="474.17667003939533,105.56884483035863 465.3742846930003,107.15566939960672 470.1646984869568,113.56284784902354"/>
+  <rect fill="white" height="23" width="30" x="426.5" y="106.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="441.5" y="123.0">10</text>
+  <polyline fill="none" points="406.42063804207334,183.77243965762494 474.17667003939533,234.43115516964139" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="474.17667003939533,234.43115516964139 470.1646984869568,226.4371521509765 465.3742846930003,232.84433060039328"/>
+  <rect fill="white" height="23" width="30" x="419.5" y="205.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="434.5" y="222.0">2</text>
+  <polyline fill="none" points="495.0,227.0 495.0,116.0" stroke="#425c70" stroke-width="1.5"/>
+  <polygon fill="#425c70" points="495.0,116.0 491.0,124.0 499.0,124.0"/>
+  <rect fill="white" height="23" width="30" x="498.0" y="153.0"/>
+  <text fill="#425c70" font-size="17" font-weight="normal" text-anchor="middle" x="513.0" y="170.0">3</text>
+  <polyline fill="none" points="514.5464046073906,237.8781986930911 601.9040643568628,183.70290582520138" stroke="#425c70" stroke-width="1.5"/>
+  <polygon fill="#425c70" points="601.9040643568628,183.70290582520138 592.9971755704819,184.51980982631915 597.2134542859285,191.31855925497678"/>
+  <rect fill="white" height="23" width="30" x="549.5" y="205.0"/>
+  <text fill="#425c70" font-size="17" font-weight="normal" text-anchor="middle" x="564.5" y="222.0">10</text>
+  <polyline fill="none" points="514.5464046073906,102.1218013069089 601.9040643568628,156.29709417479862" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="601.9040643568628,156.29709417479862 597.2134542859285,148.68144074502322 592.9971755704819,155.48019017368085"/>
+  <rect fill="white" height="23" width="30" x="548.5" y="105.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="563.5" y="122.0">1</text>
+  <circle cx="388" cy="170" fill="#e4e7e9" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="388" y="176">s</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="388" y="215">d=0</text>
+  <circle cx="495" cy="90" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="495" y="96">a</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="495" y="56">d=5</text>
+  <circle cx="495" cy="250" fill="#e4e7e9" r="23" stroke="#262626" stroke-width="1.5"/>
+  <circle cx="495" cy="250" fill="none" r="19" stroke="#262626" stroke-width="1"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="495" y="256">b</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="495" y="295">d=2</text>
+  <circle cx="624" cy="170" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="624" y="176">t</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="624" y="215">d=12</text>
+  <circle cx="622" cy="292" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="622" y="298">z</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="622" y="337">d=∞</text>
+  <polyline fill="none" points="676,12 676,344" stroke="#ddd" stroke-width="1"/>
+  <text fill="#262626" font-size="20" font-weight="bold" text-anchor="middle" x="850" y="28">处理 a 后</text>
+  <polyline fill="none" points="746.4206380420734,156.22756034237506 814.1766700393954,105.56884483035863" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="814.1766700393954,105.56884483035863 805.3742846930003,107.15566939960672 810.1646984869568,113.56284784902354"/>
+  <rect fill="white" height="23" width="30" x="766.5" y="106.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="781.5" y="123.0">10</text>
+  <polyline fill="none" points="746.4206380420734,183.77243965762494 814.1766700393954,234.43115516964139" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="814.1766700393954,234.43115516964139 810.1646984869568,226.4371521509765 805.3742846930003,232.84433060039328"/>
+  <rect fill="white" height="23" width="30" x="759.5" y="205.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="774.5" y="222.0">2</text>
+  <polyline fill="none" points="835.0,227.0 835.0,116.0" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="835.0,116.0 831.0,124.0 839.0,124.0"/>
+  <rect fill="white" height="23" width="30" x="838.0" y="153.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="853.0" y="170.0">3</text>
+  <polyline fill="none" points="854.5464046073906,237.8781986930911 941.9040643568628,183.70290582520138" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="941.9040643568628,183.70290582520138 932.9971755704819,184.51980982631915 937.2134542859285,191.31855925497678"/>
+  <rect fill="white" height="23" width="30" x="889.5" y="205.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="904.5" y="222.0">10</text>
+  <polyline fill="none" points="854.5464046073906,102.1218013069089 941.9040643568628,156.29709417479862" stroke="#425c70" stroke-width="1.5"/>
+  <polygon fill="#425c70" points="941.9040643568628,156.29709417479862 937.2134542859285,148.68144074502322 932.9971755704819,155.48019017368085"/>
+  <rect fill="white" height="23" width="30" x="888.5" y="105.0"/>
+  <text fill="#425c70" font-size="17" font-weight="normal" text-anchor="middle" x="903.5" y="122.0">1</text>
+  <circle cx="728" cy="170" fill="#e4e7e9" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="728" y="176">s</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="728" y="215">d=0</text>
+  <circle cx="835" cy="90" fill="#e4e7e9" r="23" stroke="#262626" stroke-width="1.5"/>
+  <circle cx="835" cy="90" fill="none" r="19" stroke="#262626" stroke-width="1"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="835" y="96">a</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="835" y="56">d=5</text>
+  <circle cx="835" cy="250" fill="#e4e7e9" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="835" y="256">b</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="835" y="295">d=2</text>
+  <circle cx="964" cy="170" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="964" y="176">t</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="964" y="215">d=6</text>
+  <circle cx="962" cy="292" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="962" y="298">z</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="962" y="337">d=∞</text>
+  <circle cx="45" cy="375" fill="#e4e7e9" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="45" y="381"/>
+  <text fill="#262626" font-size="16" font-weight="normal" text-anchor="start" x="78" y="381">已确定</text>
+  <circle cx="230" cy="375" fill="#e4e7e9" r="23" stroke="#262626" stroke-width="1.5"/>
+  <circle cx="230" cy="375" fill="none" r="19" stroke="#262626" stroke-width="1"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="230" y="381"/>
+  <text fill="#262626" font-size="16" font-weight="normal" text-anchor="start" x="263" y="381">本阶段处理</text>
+  <circle cx="455" cy="375" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="455" y="381"/>
+  <text fill="#262626" font-size="16" font-weight="normal" text-anchor="start" x="488" y="381">尚未确定；距离可继续改善</text>
+</svg>

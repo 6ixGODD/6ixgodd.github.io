@@ -9,7 +9,7 @@ use crate::error::{Error, IoContext, Result};
 use crate::rst::ast::{Block, Document};
 use crate::rst::render::{escape, inline, render_html};
 
-const CSS: &str = "html{font-size:14px}body{max-width:76em;margin:1.15rem auto;padding:0 1rem;font-family:\"Times New Roman\",Times,serif;line-height:1.35}nav,.mono,pre,code,kbd,samp,table,input{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace}nav{margin-bottom:1rem}pre{overflow-x:auto;padding:.5rem .65rem;border-left:2px solid #bbb;background:#fafafa}code{font-size:.94em}h1{font-size:1.45rem;margin:.45rem 0}h2{font-size:1.08rem;margin:1.15rem 0 .4rem}p,ul,ol,blockquote,table,figure{margin:.65rem 0}blockquote{margin-left:1rem;padding-left:.8rem;border-left:2px solid #bbb}table{border-collapse:collapse;font-size:.92rem}th,td{padding:.25rem .7rem .25rem 0;text-align:left;vertical-align:top}figure{margin-left:0}figcaption{font-size:.9rem;font-style:italic}img{max-width:100%;height:auto}.meta{font-size:.9rem}.note{margin:1rem 0;padding:.25rem .8rem;border-left:3px solid #888;background:#f4f4f4}.note p{margin:.5rem 0}.math{overflow-x:auto;margin:.8rem 0}input{font-size:.95rem}hr{border:0;border-top:1px solid #bbb}[hidden]{display:none!important}";
+const CSS: &str = "html{font-size:14px}body{max-width:76em;margin:1.15rem auto;padding:0 1rem;font-family:\"Times New Roman\",Times,serif;line-height:1.35}nav,.mono,pre,code,kbd,samp,table,input{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace}nav{margin-bottom:1rem}pre{overflow-x:auto;padding:.5rem .65rem;border-left:2px solid #bbb;background:#fafafa}code{font-size:.94em}h1{font-size:1.45rem;margin:.45rem 0}h2{font-size:1.08rem;margin:1.15rem 0 .4rem}p,ul,ol,blockquote,table,figure{margin:.65rem 0}blockquote{margin-left:1rem;padding-left:.8rem;border-left:2px solid #bbb}table{border-collapse:collapse;font-size:.92rem}th,td{padding:.25rem .7rem .25rem 0;text-align:left;vertical-align:top}figure{margin-left:0}figcaption{font-size:.9rem;font-style:italic}img{max-width:100%;height:auto}.meta{font-size:.9rem}.note{margin:1rem 0;padding:.25rem .8rem;border-left:3px solid #888;background:#f4f4f4}.note p{margin:.5rem 0}.math{display:flex;align-items:center;gap:1rem;margin:.8rem 0}.math-body{flex:1;min-width:0;overflow-x:auto}.equation-number{flex:none;color:inherit;text-decoration:none}input{font-size:.95rem}hr{border:0;border-top:1px solid #bbb}[hidden]{display:none!important}";
 const CODE_CSS: &str = "pre{line-height:1.5}pre .syn-keyword:not(.syn-operator),pre .syn-storage{font-weight:700}pre .syn-string{color:#395b45}pre .syn-comment{color:#888;font-style:italic}pre .syn-comment *{color:inherit;font-weight:400;font-style:inherit}";
 const SEARCH_JS: &str = r#"const input = document.querySelector('#search');
 const latest = document.querySelector('#latest');
@@ -168,6 +168,14 @@ fn resume_html(document: &Document) -> String {
 }
 
 pub fn build(content: &SiteContent, site_url: &str) -> Result<()> {
+    build_to(content, site_url, "dist", false)
+}
+
+pub fn build_preview(content: &SiteContent, site_url: &str) -> Result<()> {
+    build_to(content, site_url, "dist.preview", true)
+}
+
+fn build_to(content: &SiteContent, site_url: &str, directory: &str, drafts: bool) -> Result<()> {
     if !site_url.starts_with("https://")
         || !site_url.ends_with('/')
         || site_url
@@ -178,20 +186,25 @@ pub fn build(content: &SiteContent, site_url: &str) -> Result<()> {
             "--site-url must be a simple https URL ending in /".to_owned(),
         ));
     }
-    let out = Path::new("dist.tmp");
+    let staging = format!("{directory}.tmp");
+    let out = Path::new(&staging);
     if out
         .symlink_metadata()
         .is_ok_and(|meta| meta.file_type().is_symlink())
     {
-        return Err(Error::InvalidWorkspace(
-            "dist.tmp cannot be a symlink".to_owned(),
-        ));
+        return Err(Error::InvalidWorkspace(format!(
+            "{staging} cannot be a symlink"
+        )));
     }
     if out.exists() {
         fs::remove_dir_all(out).at(out)?;
     }
     fs::create_dir_all(out).at(out)?;
-    let published: Vec<_> = content.posts.iter().filter(|p| !p.meta.draft).collect();
+    let published: Vec<_> = content
+        .posts
+        .iter()
+        .filter(|p| drafts || !p.meta.draft)
+        .collect();
     let latest: Vec<_> = published.iter().take(20).copied().collect();
     let mut home = format!(
         "<h1>{}</h1>\n{}<hr>\n<label class=\"mono\" for=\"search\">search: </label> <input id=\"search\" type=\"search\" size=\"28\" autocomplete=\"off\" placeholder=\"title, tag, date\">\n<pre id=\"latest\">Index of /\n\n{}\nolder: <a href=\"archive/\">archive/</a></pre><pre id=\"results\" hidden></pre>\n<p class=\"mono\"><a href=\"feed.xml\">feed</a> · <a href=\"sitemap.xml\">sitemap</a></p><script src=\"search.js\" defer></script>",
@@ -256,6 +269,9 @@ pub fn build(content: &SiteContent, site_url: &str) -> Result<()> {
     for post in &published {
         let slug = &post.meta.slug;
         let mut meta = escape(&date_text(post.meta.date));
+        if post.meta.draft {
+            meta.push_str(" · draft / 草稿");
+        }
         for tag in &post.meta.tags {
             meta.push_str(&format!(" · <a href=\"../../tags/{tag}/\">{tag}</a>"));
             tags.entry(tag).or_default().push(post);
@@ -377,14 +393,14 @@ pub fn build(content: &SiteContent, site_url: &str) -> Result<()> {
     write(out, "sitemap.xml", &sitemap)?;
     copy_tree(Path::new("static"), out)?;
     write(out, ".nojekyll", "")?;
-    let dist = Path::new("dist");
+    let dist = Path::new(directory);
     if dist
         .symlink_metadata()
         .is_ok_and(|meta| meta.file_type().is_symlink())
     {
-        return Err(Error::InvalidWorkspace(
-            "dist cannot be a symlink".to_owned(),
-        ));
+        return Err(Error::InvalidWorkspace(format!(
+            "{directory} cannot be a symlink"
+        )));
     }
     if dist.exists() {
         fs::remove_dir_all(dist).at(dist)?;

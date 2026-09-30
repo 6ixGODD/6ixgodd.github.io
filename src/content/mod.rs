@@ -65,6 +65,45 @@ fn validate_static(path: &Path) -> Result<()> {
     Ok(())
 }
 
+fn post_assets(root: &Path, directory: &Path, assets: &mut Vec<PathBuf>) -> Result<()> {
+    for entry in fs::read_dir(directory).at(directory)? {
+        let path = entry.at(directory)?.path();
+        let kind = path.symlink_metadata().at(&path)?.file_type();
+        if kind.is_symlink() {
+            return Err(source_error(
+                &path,
+                1,
+                "symlinks are not allowed in post assets",
+            ));
+        }
+        let relative = path.strip_prefix(root).expect("asset under post");
+        if !safe_relative(relative) {
+            return Err(source_error(&path, 1, "unsafe post asset path"));
+        }
+        if relative == Path::new("index.rst") {
+            continue;
+        }
+        if relative == Path::new("index.html") || relative == Path::new("index.txt") {
+            return Err(source_error(
+                &path,
+                1,
+                "post asset collides with generated output",
+            ));
+        }
+        if kind.is_dir() {
+            post_assets(root, &path, assets)?;
+        } else if kind.is_file() && entry_name_is_asset(&path) {
+            assets.push(path);
+        }
+    }
+    Ok(())
+}
+
+fn entry_name_is_asset(path: &Path) -> bool {
+    path.file_name()
+        .is_some_and(|name| name != ".gitkeep" && name != ".DS_Store")
+}
+
 pub fn load() -> Result<SiteContent> {
     for required in ["content/summary.rst", "content/resume.rst", "static"] {
         if !Path::new(required).exists() {
@@ -171,9 +210,9 @@ pub fn load() -> Result<SiteContent> {
                         format!("missing or unsafe image: {src}"),
                     ));
                 }
-                assets.push(image);
             }
         }
+        post_assets(&path, &path, &mut assets)?;
         posts.push(Post {
             source,
             document,

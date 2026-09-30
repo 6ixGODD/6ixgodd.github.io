@@ -2,7 +2,7 @@ use std::path::Path;
 
 use crate::error::{Error, Result};
 use crate::rst::ast::{Block, Document};
-use latex2mathml::{DisplayStyle, latex_to_mathml};
+use latex2mathml::DisplayStyle;
 
 fn fail(path: &Path, line: usize, message: impl Into<String>) -> Error {
     Error::Source {
@@ -25,6 +25,15 @@ fn rule(line: &str) -> Option<char> {
 pub fn parse(path: &Path, source: &str) -> Result<Document> {
     let lines: Vec<&str> = source.lines().collect();
     for (number, line) in lines.iter().enumerate() {
+        let mut math_rest = *line;
+        while let Some((_, after)) = math_rest.split_once(":math:`") {
+            let (expression, tail) = after
+                .split_once('`')
+                .ok_or_else(|| fail(path, number + 1, "unclosed inline math"))?;
+            crate::rst::mathml(expression, DisplayStyle::Inline)
+                .map_err(|e| fail(path, number + 1, format!("invalid inline math: {e}")))?;
+            math_rest = tail;
+        }
         let mut rest = *line;
         while let Some(start) = rest.find('`') {
             rest = &rest[start..];
@@ -177,15 +186,36 @@ pub fn parse(path: &Path, source: &str) -> Result<Document> {
                 if i < lines.len() && lines[i].trim().is_empty() {
                     i += 1;
                 }
+                let label = if i < lines.len() && lines[i].trim().starts_with(":label:") {
+                    let label = lines[i].trim().trim_start_matches(":label:").trim();
+                    if label.is_empty()
+                        || !label
+                            .bytes()
+                            .all(|b| b.is_ascii_alphanumeric() || b == b'-')
+                    {
+                        return Err(fail(path, i + 1, "invalid equation label"));
+                    }
+                    let label = Some(label.to_owned());
+                    i += 1;
+                    if i < lines.len() && lines[i].trim().is_empty() {
+                        i += 1;
+                    }
+                    label
+                } else {
+                    None
+                };
                 let expression = indented(path, &lines, &mut i)?;
-                let mathml = latex_to_mathml(&expression, DisplayStyle::Block)
+                let mathml = crate::rst::mathml(&expression, DisplayStyle::Block)
                     .map_err(|error| fail(path, i, format!("invalid math expression: {error}")))?;
-                blocks.push(Block::Math(mathml));
+                blocks.push(Block::Math {
+                    body: mathml,
+                    label,
+                });
                 continue;
             }
             return Err(fail(path, i + 1, "unsupported directive"));
         }
-        if line.starts_with(':') {
+        if line.starts_with(':') && !line.starts_with(":math:`") && !line.starts_with(":eq:`") {
             let mut fields = Vec::new();
             while i < lines.len() && lines[i].starts_with(':') {
                 let (key, value) = lines[i][1..]
@@ -289,6 +319,29 @@ pub fn parse(path: &Path, source: &str) -> Result<Document> {
         }
         blocks.push(Block::Paragraph(paragraph));
     }
+    let mut equation_ids = std::collections::HashSet::new();
+    let mut equation_number = 0;
+    for block in &blocks {
+        if let Block::Math { label, .. } = block {
+            equation_number += 1;
+            let id = label.clone().unwrap_or_else(|| equation_number.to_string());
+            if !equation_ids.insert(id) {
+                return Err(fail(path, 1, "duplicate equation label"));
+            }
+        }
+    }
+    for (number, line) in lines.iter().enumerate() {
+        let mut rest = *line;
+        while let Some((_, after)) = rest.split_once(":eq:`") {
+            let (label, tail) = after
+                .split_once('`')
+                .ok_or_else(|| fail(path, number + 1, "unclosed equation reference"))?;
+            if !equation_ids.contains(label) {
+                return Err(fail(path, number + 1, format!("unknown equation: {label}")));
+            }
+            rest = tail;
+        }
+    }
     Ok(Document {
         title: lines[0].trim().to_owned(),
         blocks,
@@ -356,6 +409,40 @@ mod tests {
     use super::parse;
     use crate::rst::render::render_html;
     use std::path::Path;
+
+    #[test]
+    fn renders_math_aliases_and_inline_roles_and_rejects_embedded_errors() {
+        let source = "Title\n=====\n\nCompare :math:`x \\le y` and :math:`L^{11/12}`.\n\n.. math::\n\n   p:s\\leadsto v,\\quad \\deg(v)\\le n\n";
+        let html = render_html(&parse(Path::new("math.rst"), source).unwrap());
+        assert_eq!(html.matches("<math ").count(), 3);
+        assert!(html.contains("display=\"inline\""));
+        assert!(html.contains("⇝"));
+        assert!(!html.contains("PARSE ERROR"));
+        for source in [
+            "Title\n=====\n\n:math:`\\unknowncommand`\n",
+            "Title\n=====\n\n.. math::\n\n   \\unknowncommand\n",
+        ] {
+            assert!(parse(Path::new("bad.rst"), source).is_err());
+        }
+    }
+
+    #[test]
+    fn renders_leading_math_roles_numbered_equations_and_named_references() {
+        let source = "Title\n=====\n\n:math:`1/3` and :math:`2/3`. See :eq:`bound`.\n\n.. math::\n   :label: bound\n\n   x=1\n\n.. math::\n\n   y=2\n";
+        let html = render_html(&parse(Path::new("math.rst"), source).unwrap());
+        assert!(!html.contains("<dl>"));
+        assert!(html.contains("id=\"eq-bound\""));
+        assert!(html.contains("href=\"#eq-bound\">式 1</a>"));
+        assert!(html.contains("(2)</a>"));
+        assert!(parse(Path::new("bad.rst"), "Title\n=====\n\n:eq:`missing`\n").is_err());
+        assert!(
+            parse(
+                Path::new("bad.rst"),
+                &source.replace("   y=2", "   :label: bound\n\n   y=2")
+            )
+            .is_err()
+        );
+    }
 
     #[test]
     fn renders_supported_blocks_and_escapes_text() {

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="460" version="1.1" viewBox="0 0 1000 460" width="1000">
+  <defs>
+    <style type="text/css"><![CDATA[text{font-family:"Times New Roman",Times,serif}]]></style>
+  </defs>
+  <rect fill="white" height="460" width="1000" x="0" y="0"/>
+  <text fill="#262626" font-size="19" font-weight="bold" text-anchor="start" x="30" y="29">下界 L = 10    上界 B = 40    容量 k = 4</text>
+  <polyline fill="none" points="192.13311627146558,203.7449888798032 604.9799555192128,87.07088213587464" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="604.9799555192128,87.07088213587464 596.1936522734514,85.39730056525343 598.369308315259,93.09577579011102"/>
+  <rect fill="white" height="23" width="30" x="360.0" y="120.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="375.0" y="137.0">20</text>
+  <circle cx="630" cy="80" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="630" y="86">v1</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="start" x="692" y="73">旧标签 12；候选 30</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="start" x="692" y="99">松弛失败；计入 K，未进入 H</text>
+  <polyline fill="none" points="192.9135335285007,208.00751882360862 604.0977447069123,172.2523700254859" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="604.0977447069123,172.2523700254859 595.7813015358875,168.9604446036219 596.4743384668061,176.93036930918737"/>
+  <rect fill="white" height="23" width="30" x="360.0" y="165.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="375.0" y="182.0">21</text>
+  <circle cx="630" cy="170" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="630" y="176">v2</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="start" x="692" y="163">旧标签 13；候选 31</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="start" x="692" y="189">松弛失败；计入 K，未进入 H</text>
+  <polyline fill="none" points="192.8653226505975,212.48536115767365 604.1522439601941,257.1904613000211" stroke="#666666" stroke-width="1.5"/>
+  <polygon fill="#666666" points="604.1522439601941,257.1904613000211 596.6313249787121,252.34941000159594 595.7668515325648,260.3025657061516"/>
+  <rect fill="white" height="23" width="30" x="360.0" y="210.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="375.0" y="227.0">22</text>
+  <circle cx="630" cy="260" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="630" y="266">v3</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="start" x="692" y="253">旧标签 14；候选 32</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="start" x="692" y="279">松弛失败；计入 K，未进入 H</text>
+  <polyline fill="none" points="192.00349924986375,216.696717163002 605.1264791088497,342.4297979896499" stroke="#666666" stroke-dasharray="5 4" stroke-width="1.5"/>
+  <polygon fill="#666666" points="605.1264791088497,342.4297979896499 598.6377345285497,336.2738095416729 596.3084416022881,343.9272005851037"/>
+  <rect fill="white" height="23" width="30" x="360.0" y="255.0"/>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="375.0" y="272.0">23</text>
+  <circle cx="630" cy="350" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="630" y="356">v4</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="start" x="692" y="343">旧标签 15</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="start" x="692" y="369">尚未扫描；候选 33 未计算</text>
+  <circle cx="170" cy="210" fill="#e4e7e9" r="23" stroke="#262626" stroke-width="1.5"/>
+  <circle cx="170" cy="210" fill="none" r="19" stroke="#262626" stroke-width="1"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="170" y="216">x</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="170" y="255">d=10</text>
+  <rect fill="#f2f3f4" height="45" stroke="#999" stroke-width="1" width="940" x="30" y="396"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="500.0" y="424.5">停止时：K = {x, v1, v2, v3}    有效集合 = {x}    H = ∅</text>
+</svg>

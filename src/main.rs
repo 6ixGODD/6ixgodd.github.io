@@ -21,6 +21,10 @@ fn run() -> Result<()> {
         Command::New { title, slug } => commands::new::run(&title, slug.as_deref()),
         Command::Build { site_url } => commands::build::run(&site_url),
         Command::Check => commands::check::run(),
-        Command::Serve { port, site_url } => commands::serve::run(port, &site_url),
+        Command::Serve {
+            port,
+            site_url,
+            drafts,
+        } => commands::serve::run(port, &site_url, drafts),
     }
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="320" version="1.1" viewBox="0 0 1020 320" width="1020">
+  <defs>
+    <style type="text/css"><![CDATA[text{font-family:"Times New Roman",Times,serif}]]></style>
+  </defs>
+  <rect fill="white" height="320" width="1020" x="0" y="0"/>
+  <text fill="#262626" font-size="19" font-weight="bold" text-anchor="middle" x="250" y="27">子结构</text>
+  <text fill="#262626" font-size="19" font-weight="bold" text-anchor="middle" x="760" y="27">父结构</text>
+  <rect fill="#f2f3f4" height="75" stroke="#999" stroke-width="1" width="205" x="35" y="47"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="137.5" y="78.0">[0, 10)</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="137.5" y="103.0">7, 2, 9</text>
+  <polyline fill="none" points="240,85 279,85" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="279,85 271.0,81.0 271.0,89.0"/>
+  <rect fill="#f2f3f4" height="75" stroke="#999" stroke-width="1" width="205" x="285" y="47"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="387.5" y="78.0">[10, 20)</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="387.5" y="103.0">18, 11, 16</text>
+  <rect fill="#f2f3f4" height="75" stroke="#999" stroke-width="1" width="205" x="535" y="47"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="637.5" y="78.0">[20, 30)</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="637.5" y="103.0">28, 21, 25</text>
+  <polyline fill="none" points="740,85 779,85" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="779,85 771.0,81.0 771.0,89.0"/>
+  <rect fill="#f2f3f4" height="75" stroke="#999" stroke-width="1" width="205" x="785" y="47"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="887.5" y="78.0">[30, 40)</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="887.5" y="103.0">37, 31, 35</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="510" y="155">合并：复用满足区间次序的块</text>
+  <rect fill="#f2f3f4" height="75" stroke="#999" stroke-width="1" width="205" x="35" y="179"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="137.5" y="210.0">[0, 10)</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="137.5" y="235.0">7, 2, 9</text>
+  <polyline fill="none" points="240,217 279,217" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="279,217 271.0,213.0 271.0,221.0"/>
+  <rect fill="#f2f3f4" height="75" stroke="#999" stroke-width="1" width="205" x="285" y="179"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="387.5" y="210.0">[10, 20)</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="387.5" y="235.0">18, 11, 16</text>
+  <polyline fill="none" points="490,217 529,217" stroke="#425c70" stroke-width="2"/>
+  <polygon fill="#425c70" points="529,217 521.0,213.0 521.0,221.0"/>
+  <rect fill="#f2f3f4" height="75" stroke="#999" stroke-width="1" width="205" x="535" y="179"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="637.5" y="210.0">[20, 30)</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="637.5" y="235.0">28, 21, 25</text>
+  <polyline fill="none" points="740,217 779,217" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="779,217 771.0,213.0 771.0,221.0"/>
+  <rect fill="#f2f3f4" height="75" stroke="#999" stroke-width="1" width="205" x="785" y="179"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="887.5" y="210.0">[30, 40)</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="887.5" y="235.0">37, 31, 35</text>
+  <text fill="#425c70" font-size="16" font-weight="normal" text-anchor="middle" x="510" y="279">新增块链接</text>
+  <text fill="#666666" font-size="17" font-weight="normal" text-anchor="middle" x="510" y="308">块内没有全序；分裂、清理与候选提取仍须单独计费。</text>
+</svg>

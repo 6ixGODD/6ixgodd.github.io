@@ -55,6 +55,24 @@ pub fn inline(value: &str) -> String {
     let mut out = String::new();
     let mut rest = value;
     while !rest.is_empty() {
+        if let Some(after) = rest.strip_prefix(":eq:`") {
+            if let Some(end) = after.find('`') {
+                let label = escape(&after[..end]);
+                out.push_str(&format!("<a href=\"#eq-{label}\">式 {label}</a>"));
+                rest = &after[end + 1..];
+                continue;
+            }
+        }
+        if let Some(after) = rest.strip_prefix(":math:`") {
+            if let Some(end) = after.find('`') {
+                match crate::rst::mathml(&after[..end], latex2mathml::DisplayStyle::Inline) {
+                    Ok(math) => out.push_str(&math),
+                    Err(_) => out.push_str(&escape(&after[..end])),
+                }
+                rest = &after[end + 1..];
+                continue;
+            }
+        }
         if let Some(after) = rest.strip_prefix("``") {
             if let Some(end) = after.find("``") {
                 out.push_str("<code>");
@@ -124,6 +142,8 @@ pub fn inline(value: &str) -> String {
 
 pub fn render_html(document: &Document) -> String {
     let mut out = String::new();
+    let mut equation_number = 0;
+    let mut equation_labels = Vec::new();
     for block in &document.blocks {
         match block {
             Block::Paragraph(value) => {
@@ -196,10 +216,16 @@ pub fn render_html(document: &Document) -> String {
                 }
                 out.push_str("</table>\n");
             }
-            Block::Math(value) => {
-                out.push_str("<div class=\"math\">");
-                out.push_str(value);
-                out.push_str("</div>\n");
+            Block::Math { body, label } => {
+                equation_number += 1;
+                let id = label.clone().unwrap_or_else(|| equation_number.to_string());
+                equation_labels.push((id.clone(), equation_number));
+                out.push_str(&format!(
+                    "<div class=\"math\" id=\"eq-{}\"><div class=\"math-body\">",
+                    escape(&id)
+                ));
+                out.push_str(body);
+                out.push_str(&format!("</div><a class=\"equation-number\" href=\"#eq-{}\" aria-label=\"式 {}\">({})</a></div>\n", escape(&id), equation_number, equation_number));
             }
             Block::Note(title, body) => {
                 out.push_str("<aside class=\"note\">");
@@ -227,6 +253,12 @@ pub fn render_html(document: &Document) -> String {
                 out.push_str("</a></p>\n");
             }
         }
+    }
+    for (label, number) in equation_labels {
+        out = out.replace(
+            &format!("href=\"#eq-{label}\">式 {label}</a>"),
+            &format!("href=\"#eq-{label}\">式 {number}</a>"),
+        );
     }
     out
 }

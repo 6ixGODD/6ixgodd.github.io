@@ -1,6 +1,8 @@
 /target/
 /dist/
 /dist.tmp/
+/dist.preview/
+/dist.preview.tmp/
 /bochen-site-v6-resume-reference/
 .DS_Store
 .env

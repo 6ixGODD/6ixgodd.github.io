@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="370" version="1.1" viewBox="0 0 1000 370" width="1000">
+  <defs>
+    <style type="text/css"><![CDATA[text{font-family:"Times New Roman",Times,serif}]]></style>
+  </defs>
+  <rect fill="white" height="370" width="1000" x="0" y="0"/>
+  <rect fill="#f2f3f4" height="145" stroke="#999" stroke-width="1" width="360" x="25" y="65"/>
+  <text fill="#262626" font-size="18" font-weight="bold" text-anchor="start" x="50" y="91">已确定集合 S</text>
+  <polyline fill="none" points="123.0,143.0 274.0,143.0" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="274.0,143.0 266.0,139.0 266.0,147.0"/>
+  <polyline fill="none" points="323.0,143.0 499.0,143.0" stroke="#425c70" stroke-width="1.5"/>
+  <polygon fill="#425c70" points="499.0,143.0 491.0,139.0 491.0,147.0"/>
+  <polyline fill="none" points="550,143 625,143 690,120 745,143 850,143" stroke="#262626" stroke-dasharray="5 4" stroke-width="1.5"/>
+  <polygon fill="#262626" points="850,143 842.0,139.0 842.0,147.0"/>
+  <circle cx="100" cy="143" fill="#e4e7e9" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="100" y="149">s</text>
+  <circle cx="300" cy="143" fill="#e4e7e9" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="300" y="149">x</text>
+  <circle cx="525" cy="143" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="525" y="149">y</text>
+  <circle cx="875" cy="143" fill="white" r="23" stroke="#262626" stroke-width="1.5"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="875" y="149">u</text>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="300" y="193">x ∈ S</text>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="525" y="193">y ∉ S</text>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="875" y="193">u ∉ S</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="middle" x="700" y="97">剩余最短路径；中间顶点状态未限定</text>
+  <text fill="#262626" font-size="24" font-weight="normal" text-anchor="middle" x="500" y="246">δ(u) ≤ d[u] ≤ d[y] ≤ δ(y) ≤ δ(u)</text>
+  <rect fill="white" height="60" stroke="#999" stroke-width="1" width="300" x="25" y="275"/>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="175.0" y="298.5">本轮最小值选择</text>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="175.0" y="323.5">d[u] ≤ d[y]</text>
+  <rect fill="white" height="60" stroke="#999" stroke-width="1" width="300" x="350" y="275"/>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="500.0" y="298.5">边 x → y 已松弛</text>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="500.0" y="323.5">d[y] ≤ δ(y)</text>
+  <rect fill="white" height="60" stroke="#999" stroke-width="1" width="300" x="675" y="275"/>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="825.0" y="298.5">剩余路径边权非负</text>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="825.0" y="323.5">δ(y) ≤ δ(u)</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="start" x="30" y="361">一般情形示意；允许 y = u。</text>
+</svg>

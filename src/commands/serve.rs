@@ -5,8 +5,15 @@ use tiny_http::{Header, Response, Server, StatusCode};
 
 use crate::error::{Error, IoContext, Result};
 
-pub fn run(port: u16, site_url: &str) -> Result<()> {
-    super::build::run(site_url)?;
+pub fn run(port: u16, site_url: &str, drafts: bool) -> Result<()> {
+    let directory = if drafts {
+        let content = crate::content::load()?;
+        crate::site::render::build_preview(&content, site_url)?;
+        Path::new("dist.preview")
+    } else {
+        super::build::run(site_url)?;
+        Path::new("dist")
+    };
 
     let address = format!("127.0.0.1:{port}");
     let server = Server::http(&address).map_err(|error| Error::Server(error.to_string()))?;
@@ -16,8 +23,8 @@ pub fn run(port: u16, site_url: &str) -> Result<()> {
         let relative = safe_request_path(request.url());
         let path = relative
             .as_deref()
-            .map(resolve_dist_path)
-            .unwrap_or_else(|| PathBuf::from("dist/__invalid__"));
+            .map(|relative| resolve_dist_path(directory, relative))
+            .unwrap_or_else(|| directory.join("__invalid__"));
 
         if !path.is_file() {
             let response =
@@ -55,8 +62,8 @@ fn safe_request_path(url: &str) -> Option<PathBuf> {
     Some(candidate.to_path_buf())
 }
 
-fn resolve_dist_path(relative: &Path) -> PathBuf {
-    let mut path = PathBuf::from("dist");
+fn resolve_dist_path(directory: &Path, relative: &Path) -> PathBuf {
+    let mut path = directory.to_path_buf();
     path.push(relative);
 
     if relative.as_os_str().is_empty() || path.is_dir() {
@@ -80,6 +87,7 @@ fn content_type_for(path: &Path) -> Option<&'static str> {
         Some("webp") => Some("image/webp"),
         Some("avif") => Some("image/avif"),
         Some("pdf") => Some("application/pdf"),
+        Some("zip") => Some("application/zip"),
         _ => None,
     }
 }

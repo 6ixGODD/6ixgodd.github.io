@@ -23,6 +23,9 @@ pub enum Command {
     },
     Check,
     Serve {
+        /// Include drafts in a separate local preview directory.
+        #[arg(long)]
+        drafts: bool,
         #[arg(long, default_value_t = 8080)]
         port: u16,
         #[arg(long, default_value = "https://6ixgodd.github.io/")]

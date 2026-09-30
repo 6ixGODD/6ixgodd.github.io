@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="720" version="1.1" viewBox="0 0 1020 720" width="1020">
+  <defs>
+    <style type="text/css"><![CDATA[text{font-family:"Times New Roman",Times,serif}]]></style>
+  </defs>
+  <rect fill="white" height="720" width="1020" x="0" y="0"/>
+  <rect fill="#f2f3f4" height="60" stroke="#999" stroke-width="1" width="320" x="350" y="15"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="510.0" y="51.0">图与规范标签定义</text>
+  <rect fill="white" height="60" stroke="#999" stroke-width="1" width="290" x="30" y="120"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="175.0" y="156.0">局部搜索契约</text>
+  <polyline fill="none" points="510,75 510,95 175,95 175,115" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="175,115 179.0,107.0 171.0,107.0"/>
+  <rect fill="white" height="60" stroke="#999" stroke-width="1" width="290" x="365" y="120"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="510.0" y="156.0">永久删边引理</text>
+  <polyline fill="none" points="510,75 510,95 510,95 510,115" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="510,115 514.0,107.0 506.0,107.0"/>
+  <rect fill="white" height="60" stroke="#999" stroke-width="1" width="290" x="700" y="120"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="845.0" y="156.0">分组和分块队列契约</text>
+  <polyline fill="none" points="510,75 510,95 845,95 845,115" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="845,115 849.0,107.0 841.0,107.0"/>
+  <rect fill="#f2f3f4" height="65" stroke="#999" stroke-width="1" width="300" x="180" y="240"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="330.0" y="278.5">递归正确性</text>
+  <rect fill="#f2f3f4" height="65" stroke="#999" stroke-width="1" width="360" x="600" y="240"/>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="780.0" y="266.0">全局成本</text>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="780.0" y="291.0">计数、摊还界与参数选择</text>
+  <polyline fill="none" points="175,180 175,208 330,208 330,235" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="330,235 334.0,227.0 326.0,227.0"/>
+  <polyline fill="none" points="510,180 510,208 330,208 330,235" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="330,235 334.0,227.0 326.0,227.0"/>
+  <polyline fill="none" points="845,180 845,208 330,208 330,235" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="330,235 334.0,227.0 326.0,227.0"/>
+  <polyline fill="none" points="845,180 845,235" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="845,235 849.0,227.0 841.0,227.0"/>
+  <rect fill="white" height="80" stroke="#999" stroke-width="1" width="280" x="30" y="355"/>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="170.0" y="388.5">具体 RAM 程序</text>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="170.0" y="413.5">与抽象算法的一致性</text>
+  <rect fill="#f2f3f4" height="65" stroke="#999" stroke-width="1" width="350" x="350" y="430"/>
+  <text fill="#262626" font-size="21" font-weight="normal" text-anchor="middle" x="525.0" y="468.5">chd_exact_within</text>
+  <polyline fill="none" points="330,305 330,386 410,386 410,425" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="410,425 414.0,417.0 406.0,417.0"/>
+  <polyline fill="none" points="780,305 780,388 635,388 635,425" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="635,425 639.0,417.0 631.0,417.0"/>
+  <polyline fill="none" points="310,395 330,395 330,462 345,462" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="345,462 337.0,458.0 337.0,466.0"/>
+  <rect fill="white" height="100" stroke="#999" stroke-dasharray="5 4" stroke-width="1" width="260" x="735" y="442"/>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="865.0" y="485.5">本文 C++：仅测试</text>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="middle" x="865.0" y="510.5">未建立形式化细化证明</text>
+  <rect fill="white" height="55" stroke="#999" stroke-width="1" width="350" x="350" y="545"/>
+  <text fill="#262626" font-size="21" font-weight="normal" text-anchor="middle" x="525.0" y="578.5">chd_CHDTarget</text>
+  <polyline fill="none" points="525,495 525,540" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="525,540 529.0,532.0 521.0,532.0"/>
+  <rect fill="white" height="55" stroke="#999" stroke-width="1" width="350" x="350" y="643"/>
+  <text fill="#262626" font-size="21" font-weight="normal" text-anchor="middle" x="525.0" y="676.5">chd_gateC</text>
+  <polyline fill="none" points="525,600 525,638" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="525,638 529.0,630.0 521.0,630.0"/>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="start" x="760" y="620">新颖性评审与实际性能</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="start" x="760" y="645">不在此图的定理结论中。</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="start" x="32" y="688">简化证明层次图，</text>
+  <text fill="#666666" font-size="16" font-weight="normal" text-anchor="start" x="32" y="711">不是运行流程或模块导入图。</text>
+</svg>

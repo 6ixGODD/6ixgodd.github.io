@@ -1,0 +1,26 @@
+Verified locally: 2026-09-30
+Platform: macOS arm64
+Compiler: Apple clang version 21.0.0 (clang-2100.1.1.101)
+
+Run: sh code/verify.sh
+
+F04: nodes=4 valid=1 scanned=3 extracted=1 stop=size_limit
+PASS: directed cases, targeted local-search scenarios, 2500 seeded random graphs
+Dijkstra and untruncated local search both match independent Bellman-Ford.
+This is NOT a verification of the complete C-HD algorithm.
+F04: nodes=4 valid=1 scanned=3 extracted=1 stop=size_limit
+PASS: directed cases, targeted local-search scenarios, 2500 seeded random graphs
+Dijkstra and untruncated local search both match independent Bellman-Ford.
+This is NOT a verification of the complete C-HD algorithm.
+PASS: article Dijkstra snippet, 2500 seeded random multigraphs
+PASS: article Dijkstra snippet, 2500 seeded random multigraphs
+0: 0
+1: 5
+2: 2
+3: 6
+4: INF
+
+Both suites run once at -O2 and once under AddressSanitizer/UndefinedBehaviorSanitizer.
+Lean is unavailable on this machine: DijkstraStep.lean and CheckCHD.lean NOT compiled locally.
+No complete C-HD solver or formal refinement of the C++ code is supplied.
+No benchmark performance claims are made.

@@ -12,7 +12,10 @@ pub enum Block {
         caption: Option<String>,
     },
     Table(Vec<Vec<String>>),
-    Math(String),
+    Math {
+        body: String,
+        label: Option<String>,
+    },
     Note(Option<String>, String),
     Reference(String, String, String),
 }

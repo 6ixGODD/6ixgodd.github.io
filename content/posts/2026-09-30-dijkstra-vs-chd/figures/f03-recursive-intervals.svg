@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="335" version="1.1" viewBox="0 0 1000 335" width="1000">
+  <defs>
+    <style type="text/css"><![CDATA[text{font-family:"Times New Roman",Times,serif}]]></style>
+  </defs>
+  <rect fill="white" height="335" width="1000" x="0" y="0"/>
+  <text fill="#262626" font-size="19" font-weight="bold" text-anchor="start" x="30" y="27">横轴：规范最短路标签的次序</text>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="start" x="30" y="82">父调用</text>
+  <rect fill="#f2f3f4" height="50" stroke="#999" stroke-width="1" width="650" x="140" y="52"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="465.0" y="83.0">实际处理 [A, D)</text>
+  <rect fill="white" height="50" stroke="#999" stroke-dasharray="5 4" stroke-width="1" width="155" x="790" y="52"/>
+  <text fill="#262626" font-size="16" font-weight="normal" text-anchor="middle" x="867.5" y="83.0">未处理尾部</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="140" y="128">A</text>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="790" y="128">D = B′ₓ</text>
+  <text fill="#262626" font-size="16" font-weight="normal" text-anchor="middle" x="945" y="128">请求上界 Bₓ</text>
+  <text fill="#262626" font-size="17" font-weight="normal" text-anchor="start" x="30" y="194">子调用</text>
+  <rect fill="#f2f3f4" height="50" stroke="#999" stroke-width="1" width="210" x="220" y="163"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="325.0" y="194.0">[a₁, b₁)</text>
+  <rect fill="#f2f3f4" height="50" stroke="#999" stroke-width="1" width="150" x="555" y="163"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="630.0" y="194.0">[a₂, b₂)</text>
+  <polyline fill="none" points="220,104 220,155" stroke="#bbb" stroke-dasharray="5 4" stroke-width="1"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="220" y="238">a₁</text>
+  <polyline fill="none" points="430,104 430,155" stroke="#bbb" stroke-dasharray="5 4" stroke-width="1"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="430" y="238">b₁</text>
+  <polyline fill="none" points="555,104 555,155" stroke="#bbb" stroke-dasharray="5 4" stroke-width="1"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="555" y="238">a₂</text>
+  <polyline fill="none" points="705,104 705,155" stroke="#bbb" stroke-dasharray="5 4" stroke-width="1"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="705" y="238">b₂</text>
+  <polyline fill="none" points="130,266 955,266" stroke="#262626" stroke-width="1.5"/>
+  <polygon fill="#262626" points="955,266 947.0,262.0 947.0,270.0"/>
+  <text fill="#262626" font-size="18" font-weight="normal" text-anchor="middle" x="545" y="304">A ≤ a₁ &lt; b₁ ≤ a₂ &lt; b₂ ≤ D；空白不要求由子调用覆盖</text>
+</svg>
